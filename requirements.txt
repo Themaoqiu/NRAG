@@ -1,0 +1,14 @@
+# 核心依赖
+openai>=1.0.0             # OpenAI API 客户端
+numpy>=1.21.0             # 数值计算
+tqdm>=4.65.0              # 进度条显示
+transformers>=4.30.0      # HuggingFace 模型库
+pypdf>=3.0.0              # PDF 解析
+PyMuPDF>=1.22.0           # 高性能 PDF 解析 (fitz)
+tiktoken>=0.4.0           # Token 计数工具
+requests>=2.28.0          # HTTP 请求
+
+# 可选依赖 (根据实际需求安装)
+python-dotenv>=1.0.0      # 环境变量管理
+scikit-learn>=1.2.0       # 相似度计算 (如需本地计算)
+sentence-transformers>=2.2.2  # 本地嵌入模型
