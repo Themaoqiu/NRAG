@@ -2,10 +2,9 @@ from typing import List
 import os
 import numpy as np
 from openai import OpenAI
-from transformers import AutoModel, AutoTokenizer  # 新增本地模型依赖
+from transformers import AutoModel, AutoTokenizer
 
 class BaseEmbeddings:
-    """基类定义需保持与原始结构一致"""
     def __init__(self, path: str = '', is_api: bool = True):
         self.path = path
         self.is_api = is_api
@@ -29,11 +28,11 @@ class DeepSeekEmbedding(BaseEmbeddings):
     DeepSeek Embedding服务封装（修正版）
     """
     def __init__(self, path: str = '', is_api: bool = True):
-        super().__init__(path, is_api)  # 修复：必须调用父类初始化
+        super().__init__(path, is_api)
         if self.is_api:
             self.client = OpenAI(
                 api_key="sk-66de080296ae49018e1cf680f4b60aef",
-                base_url="https://api.deepseek.com/v1"  # 修正API地址格式
+                base_url="https://api.deepseek.com/v1" 
             )
         else:
             # 加载本地开源模型
@@ -43,7 +42,7 @@ class DeepSeekEmbedding(BaseEmbeddings):
     def get_embedding(self, text: str, model: str = "embedding-2") -> List[float]:
         if self.is_api:
             # API模式
-            text = text.replace("\n", " ")  # 根据需求决定是否保留换行符
+            text = text.replace("\n", " ") 
             response = self.client.embeddings.create(
                 input=[text], 
                 model=model
@@ -58,7 +57,7 @@ class DeepSeekEmbedding(BaseEmbeddings):
         inputs = self.tokenizer(text, return_tensors="pt", padding=True, truncation=True)
         outputs = self.model(**inputs)
         embeddings = outputs.last_hidden_state.mean(dim=1).detach().numpy()
-        return embeddings[0].tolist()  # 转换为列表
+        return embeddings[0].tolist() 
 
 # 使用示例
 if __name__ == "__main__":

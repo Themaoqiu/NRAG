@@ -23,7 +23,7 @@ class BaseModel:
     def chat(self, prompt: str, history: List[dict], content: str) -> str:
         pass
     
-    def load_model(self):  # 修正拼写
+    def load_model(self):
         pass
 
 class DeepseekChat(BaseModel):
@@ -42,10 +42,8 @@ class DeepseekChat(BaseModel):
             question=prompt
         )
         
-        # 复制历史记录避免污染原始数据
         new_history = history.copy()
         
-        # 添加系统消息（如果有上下文）
         if content:
             new_history.insert(0, {"role": "system","content": "以下对话请结合用户提供的上下文信息进行回答"})
         

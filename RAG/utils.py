@@ -8,10 +8,6 @@ import fitz
 from pypdf import PdfReader, errors
 
 class ReadFiles:
-    """
-    文件读取与分块处理类（DeepSeek适配版）
-    """
-
     def __init__(self, path: str) -> None:
         self._path = path
         self.file_list = self.get_files()
@@ -34,7 +30,6 @@ class ReadFiles:
         return file_list
 
     def get_content(self, max_token_len: int = 2000, cover_content: int = 200) -> List[str]:
-        """获取分块内容（适配长上下文模型）"""
         docs = []
         for file in tqdm(self.file_list, desc="Processing files"):
             try:
@@ -46,7 +41,6 @@ class ReadFiles:
         return docs
 
     def get_chunk(self, text: str, max_token_len: int, cover_content: int) -> List[str]:
-        """改进的分块算法（保留语义完整性）"""
         # 预处理
         text = re.sub(r'\s+', ' ', text).strip()
         sentences = re.split(r'(?<=[.!?])\s+', text)  # 按句子分割
@@ -87,7 +81,6 @@ class ReadFiles:
         return chunks
 
     def _split_long_sentence(self, sentence: str, max_len: int) -> List[str]:
-        """处理超长句子"""
         words = sentence.split()
         chunks = []
         current_chunk = []
@@ -112,7 +105,7 @@ class ReadFiles:
         return chunks
 
     def read_file_content(self, file_path: str) -> str:
-        """改进的文件读取方法"""
+        """文件读取"""
         ext = os.path.splitext(file_path)[1].lower()
         try:
             if ext == '.pdf':
@@ -125,15 +118,14 @@ class ReadFiles:
             raise RuntimeError(f"Error reading {file_path}: {str(e)}")
 
     def read_pdf(self, file_path: str) -> str:
-        """改进的PDF解析方法"""
+        """PDF解析"""
         text = ""
         try:
-            # 优先使用PyMuPDF提取文本
+            # 
             with fitz.open(file_path) as doc:
                 for page in doc:
                     text += page.get_text("text")
         except Exception:
-            # 回退到pypdf
             try:
                 with open(file_path, 'rb') as f:
                     reader = PdfReader(f)
@@ -141,16 +133,13 @@ class ReadFiles:
             except errors.PdfReadError as e:
                 raise RuntimeError(f"PDF解析失败: {str(e)}")
         
-        # 清理PDF特殊字符
         return re.sub(r'\x0c', '', text)  # 移除换页符
 
 class Documents:
-    """数据处理适配器"""
     def __init__(self, path: str = ''):
         self.path = path
     
     def get_content(self) -> List[Dict]:
-        """生成DeepSeek兼容格式"""
         with open(self.path, 'r', encoding='utf-8') as f:
             data = json.load(f)
             return [{
