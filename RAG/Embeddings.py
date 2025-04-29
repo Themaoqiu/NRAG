@@ -25,7 +25,7 @@ class BaseEmbeddings:
 
 class DeepSeekEmbedding(BaseEmbeddings):
     """
-    DeepSeek Embedding服务封装（修正版）
+    DeepSeek Embedding服务封装
     """
     def __init__(self, path: str = '', is_api: bool = True):
         super().__init__(path, is_api)
