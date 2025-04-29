@@ -24,9 +24,6 @@ class BaseEmbeddings:
         return dot_product / magnitude
 
 class DeepSeekEmbedding(BaseEmbeddings):
-    """
-    DeepSeek Embedding服务封装
-    """
     def __init__(self, path: str = '', is_api: bool = True):
         super().__init__(path, is_api)
         if self.is_api:
