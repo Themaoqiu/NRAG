@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能知识助手</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">AI Assistant</div>
+            <div class="upload-section">
+                <input type="file" id="fileInput" hidden multiple>
+                <button onclick="document.getElementById('fileInput').click()">
+                    <i class="fas fa-upload"></i> 上传文档
+                </button>
+            </div>
+        </div>
+        
+        <div class="chat-container">
+            <div class="chat-history" id="chatHistory">
+                <div class="welcome-message">
+                    <h1>智能知识助手</h1>
+                    <p>输入问题开始对话，或上传文档更新知识库</p>
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <textarea 
+                    id="userInput" 
+                    placeholder="输入您的问题..." 
+                    rows="1"
+                    oninput="autoResize(this)"
+                ></textarea>
+                <button id="sendButton" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
